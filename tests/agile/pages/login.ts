@@ -1,11 +1,11 @@
-import { expect, Locator, Page } from '@playwright/test'
+import { Locator, Page } from '@playwright/test'
 
 export class Login {
     private page: Page
     private usernameInput: Locator
     private passwordInput: Locator
     private submitButton: Locator
-    private loginTitle: Locator 
+    private loginTitle: Locator
     private errorMessage: Locator
 
     constructor(page: Page) {
@@ -21,7 +21,6 @@ export class Login {
         await this.page.goto('https://aatp.vercel.app/')
     }
 
-
     async login(username: string, password: string) {
         await this.usernameInput.fill(username)
         await this.passwordInput.fill(password)
@@ -29,11 +28,11 @@ export class Login {
 
     }
 
-    async isAtpage(){
+    async isAtpage() {
         return await this.loginTitle.isVisible()
     }
 
-    async errorMessageIsVisible(){
+    async errorMessageIsVisible() {
         return await this.errorMessage.isVisible()
     }
 

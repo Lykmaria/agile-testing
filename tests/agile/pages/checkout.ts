@@ -1,4 +1,4 @@
-import {Locator, Page, expect } from "@playwright/test"
+import { Locator, Page, expect } from "@playwright/test"
 
 export class Checkout {
     private page: Page
@@ -10,10 +10,11 @@ export class Checkout {
     private city: Locator
     private phone: Locator
     private cancelButton: Locator
-    private placeOrderButton: Locator
+    readonly placeOrderButton: Locator
     private returnButton: Locator
     private confirmOrderButton: Locator
     private verificationCancelBtn: Locator
+    private cartCount: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -28,47 +29,54 @@ export class Checkout {
         this.placeOrderButton = this.page.locator('[data-test-id=place-order-button]')
         this.returnButton = this.page.locator('[data-test-id=return-button]')
         this.confirmOrderButton = this.page.locator('[data-test-id="modal-confirm-button"]')
-        this.verificationCancelBtn = this.page.locator ('[data-test-id="modal-confirm-cancel-button"]')
+        this.verificationCancelBtn = this.page.locator('[data-test-id="modal-confirm-cancel-button"]')
+        this.cartCount = this.page.locator ('[data-test-id="cart-count"]')
     }
 
-    async gotoCheckout(){
+    async gotoCheckout() {
         await this.page.goto('https://aatp.vercel.app/checkout')
     }
 
-    async cart(){
+    async cart() {
         await this.cartButton.click()
     }
 
-    async shippingName() {
-        return await this.name.inputValue()
+    async shippingName(name: string) {
+        await expect(this.name).toBeVisible()
+        await this.name.fill(name)
     }
 
-    async shippingAddress() {
-        return await this.address.inputValue()
+    async shippingAddress(address: string) {
+        await expect(this.address).toBeVisible()
+        await this.address.fill(address)
     }
 
-    async shippingZipCode() {
-        return await this.zipCode.inputValue()
+    async shippingZipCode(zip: string) {
+        await expect(this.zipCode).toBeVisible()
+        await this.zipCode.fill(zip)
     }
 
-    async shippingCity() {
-        return await this.city.inputValue()
+    async shippingCity(city: string) {
+        await expect(this.city).toBeVisible()
+        await this.city.fill(city)
     }
 
-    async shippingPhone() {
-        return await this.phone.inputValue()
+    async shippingPhone(phone: string) {
+        await expect(this.phone).toBeVisible()
+        await this.phone.fill(phone)
     }
 
-    async placeOrder(){
+    async placeOrder() {
         await expect(this.placeOrderButton).toBeVisible()
         await this.placeOrderButton.click()
     }
 
-    async confirmOrder(){
+    async confirmOrder() {
+        await expect(this.confirmOrderButton).toBeVisible()
         await this.confirmOrderButton.click()
     }
 
-    async cancelOrder () {
+    async cancelOrder() {
         await expect(this.cancelButton).toBeVisible()
         await this.cancelButton.click()
     }
@@ -86,4 +94,9 @@ export class Checkout {
         await this.verificationCancelBtn.click()
     }
 
+    async cartCountNum(): Promise<number> {
+        await expect(this.cartCount).toBeVisible()
+        const text = await this.cartCount.textContent()
+        return Number (text ?? '0')
+    }
 }

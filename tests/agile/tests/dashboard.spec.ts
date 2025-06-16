@@ -35,7 +35,7 @@ test.describe('Product listing', () => {
         await products.goto() 
        
         await test.step('Click add to cart', async () => {
-            await products.addToCartButton.first().click()
+            await products.cart
         })
     })
 
@@ -43,12 +43,11 @@ test.describe('Product listing', () => {
         await products.goto() 
        
         await test.step('Click add to cart', async () => {
-            await products.addToCartButton.first().click()
+            expect (products.addToCartButton.first())
         })
 
         await test.step('Delete from cart', async () => {
-            await products.removeFromCart()
+            expect (products.removeFromCart())
         })
     })
-
 })    

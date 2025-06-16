@@ -28,10 +28,8 @@ test.describe('User Authentication', () => {
             await products.logout()
         })
 
-
         await test.step('Return to login page', async () => {
             expect(await login.isAtpage()).toBeTruthy();
-
         })
 
     })    
@@ -53,5 +51,3 @@ test.describe('User Authentication', () => {
         expect(await login.getErrorMessage()).toBe(error)
         })
     })
-
-       
